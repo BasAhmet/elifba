@@ -14,99 +14,276 @@
             25% { transform: translateX(-5px); }
             75% { transform: translateX(5px); }
         }
-        .shake-animation {
-            animation: shake 0.3s ease-in-out;
+        .shake-animation { animation: shake 0.3s ease-in-out; }
+        
+        /* Trenin kalkış animasyonu */
+        @keyframes driveAway {
+            0% { transform: translateX(0); opacity: 1; }
+            100% { transform: translateX(-100vw); opacity: 0; }
         }
+        .drive-away { animation: driveAway 1.5s ease-in forwards; }
     </style>
 </head>
 <body class="bg-blue-50 min-h-screen p-6 flex flex-col items-center">
 
-    <!-- Üst Kontrol Paneli -->
-    <header class="w-full max-w-5xl flex flex-col md:flex-row items-center justify-between gap-4 bg-white p-6 rounded-3xl shadow-sm border border-blue-100 mb-6">
+    <!-- Ana Menü / Navigasyon -->
+    <header class="w-full max-w-5xl bg-white p-4 rounded-3xl shadow-sm border border-blue-100 mb-6 flex flex-col md:flex-row items-center justify-between gap-4">
         <div>
-            <h1 class="text-3xl md:text-4xl font-black text-blue-600 drop-shadow-sm">Harfleri Öğrenelim 🚀</h1>
-            <p id="bilgi-metni" class="text-lg text-gray-600 mt-1 font-bold">Harfleri ve harekeleri keşfet!</p>
+            <h1 class="text-3xl font-black text-blue-600 drop-shadow-sm">Elif Ba 🚀</h1>
         </div>
-        
-        <button id="oyun-modu-btn" class="bg-indigo-500 hover:bg-indigo-600 text-white text-xl font-bold py-4 px-8 rounded-2xl shadow-lg transition-all transform hover:scale-105 active:scale-95 flex items-center gap-2">
-            🎮 Oyuna Başla!
-        </button>
+        <div class="flex flex-wrap gap-2 justify-center">
+            <button onclick="modDegistir('ogrenme')" id="btn-mod-ogrenme" class="mod-btn bg-indigo-500 text-white font-bold py-3 px-6 rounded-2xl shadow hover:scale-105 transition-all">📖 Harfler & Harekeler</button>
+            <button onclick="modDegistir('tren')" id="btn-mod-tren" class="mod-btn bg-gray-200 text-gray-700 font-bold py-3 px-6 rounded-2xl shadow hover:scale-105 transition-all">🚂 Tren Oyunu (Birleşme)</button>
+        </div>
     </header>
 
-    <!-- HAREKE SEÇİM MENÜSÜ -->
-    <div class="w-full max-w-5xl flex flex-wrap justify-center gap-3 mb-8 bg-white p-3 rounded-2xl shadow-sm border border-blue-100">
-        <button onclick="harekeDegistir('yalin')" id="btn-yalin" class="hareke-btn bg-blue-500 text-white font-bold py-3 px-6 rounded-xl transition-all hover:scale-105">Bağımsız Harfler</button>
-        <button onclick="harekeDegistir('ustun')" id="btn-ustun" class="hareke-btn bg-gray-100 text-gray-600 font-bold py-3 px-6 rounded-xl transition-all hover:scale-105 hover:bg-gray-200">Üstün ( َ )</button>
-        <button onclick="harekeDegistir('esre')" id="btn-esre" class="hareke-btn bg-gray-100 text-gray-600 font-bold py-3 px-6 rounded-xl transition-all hover:scale-105 hover:bg-gray-200">Esre ( ِ )</button>
-        <button onclick="harekeDegistir('otre')" id="btn-otre" class="hareke-btn bg-gray-100 text-gray-600 font-bold py-3 px-6 rounded-xl transition-all hover:scale-105 hover:bg-gray-200">Ötre ( ُ )</button>
+    <!-- ÖĞRENME MODU ALANI (Harfler ve Harekeler) -->
+    <div id="alan-ogrenme" class="w-full max-w-5xl flex flex-col items-center">
+        <!-- Hareke Menüsü -->
+        <div id="hareke-menu" class="w-full flex flex-wrap justify-center gap-3 mb-6 bg-white p-3 rounded-2xl shadow-sm border border-blue-100">
+            <button onclick="harekeDegistir('yalin')" id="btn-yalin" class="hareke-btn bg-blue-500 text-white font-bold py-3 px-6 rounded-xl transition-all hover:scale-105">Bağımsız Harfler</button>
+            <button onclick="harekeDegistir('ustun')" id="btn-ustun" class="hareke-btn bg-gray-100 text-gray-600 font-bold py-3 px-6 rounded-xl transition-all hover:scale-105">Üstün ( َ )</button>
+            <button onclick="harekeDegistir('esre')" id="btn-esre" class="hareke-btn bg-gray-100 text-gray-600 font-bold py-3 px-6 rounded-xl transition-all hover:scale-105">Esre ( ِ )</button>
+            <button onclick="harekeDegistir('otre')" id="btn-otre" class="hareke-btn bg-gray-100 text-gray-600 font-bold py-3 px-6 rounded-xl transition-all hover:scale-105">Ötre ( ُ )</button>
+            <button id="oyun-modu-btn" class="ml-auto bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-xl shadow-md transition-all transform hover:scale-105 flex items-center gap-2">
+                🎮 Bulma Oyunu
+            </button>
+        </div>
+        
+        <div id="oyun-geribildirim" class="hidden text-2xl font-black text-center mb-6 py-3 px-8 rounded-full shadow-md transition-all w-full max-w-3xl"></div>
+        
+        <div id="harfler-grid" class="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-6 gap-4 w-full flex-row-reverse" dir="rtl">
+            <!-- JS ile doldurulacak -->
+        </div>
     </div>
 
-    <!-- Oyun İçi Geri Bildirim -->
-    <div id="oyun-geribildirim" class="hidden text-2xl font-black text-center mb-6 py-3 px-8 rounded-full shadow-md transition-all"></div>
+    <!-- TREN OYUNU ALANI (Başlangıçta Gizli) -->
+    <div id="alan-tren" class="hidden w-full max-w-4xl flex flex-col items-center">
+        <div class="bg-white p-8 rounded-3xl shadow-lg border border-indigo-100 w-full text-center">
+            <h2 class="text-3xl font-black text-indigo-600 mb-2">Harfleri Vagonlara Diz!</h2>
+            <p class="text-xl text-gray-600 font-bold mb-8">Bu harfin formlarını sırasıyla <b>Başta</b>, <b>Ortada</b> ve <b>Sonda</b> olacak şekilde vagonlara tıkla.</p>
+            
+            <div id="hedef-harf-gosterimi" class="text-6xl font-bold text-gray-800 mb-8 bg-blue-50 py-4 px-8 rounded-full inline-block border-2 border-blue-200">
+                <!-- Soru buraya gelecek -->
+            </div>
 
-    <!-- Harfler Grid -->
-    <main class="w-full">
-        <div id="harfler-grid" class="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-6 gap-4 max-w-5xl mx-auto flex-row-reverse" dir="rtl">
-            <!-- JavaScript ile harfler buraya çizilecek -->
+            <!-- Tren Görseli Alanı (Sağdan Sola) -->
+            <div id="tren-kapsayici" class="flex flex-row-reverse justify-center items-center gap-2 mb-12" dir="rtl">
+                <!-- Lokomotif -->
+                <div class="text-7xl drop-shadow-md">🚂</div>
+                
+                <!-- Vagonlar (Bağlantı Çizgileriyle Birlikte) -->
+                <div class="flex flex-col items-center">
+                    <span class="text-sm font-bold text-gray-400 mb-1">Başta</span>
+                    <div id="vagon-basta" class="w-24 h-24 bg-indigo-50 border-4 border-dashed border-indigo-300 rounded-xl flex items-center justify-center text-5xl font-bold text-indigo-700 shadow-inner"></div>
+                </div>
+                <div class="h-4 w-6 bg-gray-400 mt-5"></div> <!-- Bağlantı -->
+                
+                <div class="flex flex-col items-center">
+                    <span class="text-sm font-bold text-gray-400 mb-1">Ortada</span>
+                    <div id="vagon-ortada" class="w-24 h-24 bg-indigo-50 border-4 border-dashed border-indigo-300 rounded-xl flex items-center justify-center text-5xl font-bold text-indigo-700 shadow-inner"></div>
+                </div>
+                <div class="h-4 w-6 bg-gray-400 mt-5"></div> <!-- Bağlantı -->
+                
+                <div class="flex flex-col items-center">
+                    <span class="text-sm font-bold text-gray-400 mb-1">Sonda</span>
+                    <div id="vagon-sonda" class="w-24 h-24 bg-indigo-50 border-4 border-dashed border-indigo-300 rounded-xl flex items-center justify-center text-5xl font-bold text-indigo-700 shadow-inner"></div>
+                </div>
+            </div>
+
+            <!-- Seçenekler (Karışık Formlar) -->
+            <div id="tren-secenekler" class="flex justify-center gap-6" dir="rtl">
+                <!-- Butonlar JS ile basılacak -->
+            </div>
+            
+            <div id="tren-mesaj" class="mt-8 text-2xl font-black h-8"></div>
         </div>
-    </main>
+    </div>
 
     <script>
-        // Genişletilmiş Veri Seti (Tüm okunuşlar eklendi)
+        // --- 1. VERİ SETİ (Başta, Ortada, Sonda formları eklendi) ---
         const elifBa = [
-            { arapca: "ا", yalin: "Elif", ustun: "E", esre: "İ", otre: "Ü", dosya: "elif", renk: "bg-red-400" },
-            { arapca: "ب", yalin: "Be", ustun: "Be", esre: "Bi", otre: "Bü", dosya: "be", renk: "bg-orange-400" },
-            { arapca: "ت", yalin: "Te", ustun: "Te", esre: "Ti", otre: "Tü", dosya: "te", renk: "bg-yellow-400" },
-            { arapca: "ث", yalin: "Se", ustun: "Se", esre: "Si", otre: "Sü", dosya: "se", renk: "bg-green-400" },
-            { arapca: "ج", yalin: "Cim", ustun: "Ce", esre: "Ci", otre: "Cü", dosya: "cim", renk: "bg-teal-400" },
-            { arapca: "ح", yalin: "Ha", ustun: "Ha", esre: "Hı", otre: "Hu", dosya: "ha", renk: "bg-cyan-400" }, 
-            { arapca: "خ", yalin: "Hı", ustun: "Ha", esre: "Hı", otre: "Hu", dosya: "hi", renk: "bg-blue-400" }, 
-            { arapca: "د", yalin: "Dal", ustun: "De", esre: "Di", otre: "Dü", dosya: "dal", renk: "bg-indigo-400" },
-            { arapca: "ذ", yalin: "Zel", ustun: "Ze", esre: "Zi", otre: "Zü", dosya: "zel", renk: "bg-purple-400" },
-            { arapca: "ر", yalin: "Ra", ustun: "Ra", esre: "Ri", otre: "Ru", dosya: "ra", renk: "bg-pink-400" }, 
-            { arapca: "ز", yalin: "Ze", ustun: "Ze", esre: "Zi", otre: "Zü", dosya: "ze", renk: "bg-rose-400" },
-            { arapca: "س", yalin: "Sin", ustun: "Se", esre: "Si", otre: "Sü", dosya: "sin", renk: "bg-red-500" },
-            { arapca: "ش", yalin: "Şın", ustun: "Şe", esre: "Şi", otre: "Şü", dosya: "sin2", renk: "bg-orange-500" },
-            { arapca: "ص", yalin: "Sad", ustun: "Sa", esre: "Sı", otre: "Su", dosya: "sad", renk: "bg-yellow-500" }, 
-            { arapca: "ض", yalin: "Dat", ustun: "Da", esre: "Dı", otre: "Du", dosya: "dat", renk: "bg-green-500" }, 
-            { arapca: "ط", yalin: "Tı", ustun: "Ta", esre: "Tı", otre: "Tu", dosya: "ti", renk: "bg-teal-500" }, 
-            { arapca: "ظ", yalin: "Zı", ustun: "Za", esre: "Zı", otre: "Zu", dosya: "zi", renk: "bg-cyan-500" }, 
-            { arapca: "ع", yalin: "Ayn", ustun: "A", esre: "I", otre: "U", dosya: "ayn", renk: "bg-blue-500" }, 
-            { arapca: "غ", yalin: "Ğayn", ustun: "Ğa", esre: "Ğı", otre: "Ğu", dosya: "gayn", renk: "bg-indigo-500" }, 
-            { arapca: "ف", yalin: "Fe", ustun: "Fe", esre: "Fi", otre: "Fü", dosya: "fe", renk: "bg-purple-500" },
-            { arapca: "ق", yalin: "Kaf", ustun: "Ka", esre: "Kı", otre: "Ku", dosya: "kaf", renk: "bg-pink-500" }, 
-            { arapca: "ك", yalin: "Kef", ustun: "Ke", esre: "Ki", otre: "Kü", dosya: "kef", renk: "bg-rose-500" },
-            { arapca: "ل", yalin: "Lam", ustun: "Le", esre: "Li", otre: "Lü", dosya: "lam", renk: "bg-red-400" },
-            { arapca: "م", yalin: "Mim", ustun: "Me", esre: "Mi", otre: "Mü", dosya: "mim", renk: "bg-orange-400" },
-            { arapca: "ن", yalin: "Nun", ustun: "Ne", esre: "Ni", otre: "Nü", dosya: "nun", renk: "bg-yellow-400" },
-            { arapca: "و", yalin: "Vav", ustun: "Ve", esre: "Vi", otre: "Vü", dosya: "vav", renk: "bg-green-400" },
-            { arapca: "ه", yalin: "He", ustun: "He", esre: "Hi", otre: "Hü", dosya: "he", renk: "bg-teal-400" },
-            { arapca: "لا", yalin: "Lam-Elif", ustun: "Lâ", esre: "Lî", otre: "Lû", dosya: "lam_elif", renk: "bg-cyan-400" },
-            { arapca: "ي", yalin: "Ye", ustun: "Ye", esre: "Yi", otre: "Yü", dosya: "ye", renk: "bg-blue-400" }
+            { arapca: "ا", yalin: "Elif", ustun: "E", esre: "İ", otre: "Ü", dosya: "elif", renk: "bg-red-400", basta: "ا", ortada: "ـا", sonda: "ـا" },
+            { arapca: "ب", yalin: "Be", ustun: "Be", esre: "Bi", otre: "Bü", dosya: "be", renk: "bg-orange-400", basta: "بـ", ortada: "ـبـ", sonda: "ـب" },
+            { arapca: "ت", yalin: "Te", ustun: "Te", esre: "Ti", otre: "Tü", dosya: "te", renk: "bg-yellow-400", basta: "تـ", ortada: "ـتـ", sonda: "ـت" },
+            { arapca: "ث", yalin: "Se", ustun: "Se", esre: "Si", otre: "Sü", dosya: "se", renk: "bg-green-400", basta: "ثـ", ortada: "ـثـ", sonda: "ـث" },
+            { arapca: "ج", yalin: "Cim", ustun: "Ce", esre: "Ci", otre: "Cü", dosya: "cim", renk: "bg-teal-400", basta: "جـ", ortada: "ـجـ", sonda: "ـج" },
+            { arapca: "ح", yalin: "Ha", ustun: "Ha", esre: "Hı", otre: "Hu", dosya: "ha", renk: "bg-cyan-400", basta: "حـ", ortada: "ـحـ", sonda: "ـح" },
+            { arapca: "خ", yalin: "Hı", ustun: "Ha", esre: "Hı", otre: "Hu", dosya: "hi", renk: "bg-blue-400", basta: "خـ", ortada: "ـخـ", sonda: "ـخ" },
+            { arapca: "د", yalin: "Dal", ustun: "De", esre: "Di", otre: "Dü", dosya: "dal", renk: "bg-indigo-400", basta: "د", ortada: "ـد", sonda: "ـد" },
+            { arapca: "ذ", yalin: "Zel", ustun: "Ze", esre: "Zi", otre: "Zü", dosya: "zel", renk: "bg-purple-400", basta: "ذ", ortada: "ـذ", sonda: "ـذ" },
+            { arapca: "ر", yalin: "Ra", ustun: "Ra", esre: "Ri", otre: "Ru", dosya: "ra", renk: "bg-pink-400", basta: "ر", ortada: "ـر", sonda: "ـر" },
+            { arapca: "ز", yalin: "Ze", ustun: "Ze", esre: "Zi", otre: "Zü", dosya: "ze", renk: "bg-rose-400", basta: "ز", ortada: "ـز", sonda: "ـز" },
+            { arapca: "س", yalin: "Sin", ustun: "Se", esre: "Si", otre: "Sü", dosya: "sin", renk: "bg-red-500", basta: "سـ", ortada: "ـسـ", sonda: "ـس" },
+            { arapca: "ش", yalin: "Şın", ustun: "Şe", esre: "Şi", otre: "Şü", dosya: "sin2", renk: "bg-orange-500", basta: "شـ", ortada: "ـشـ", sonda: "ـش" },
+            { arapca: "ص", yalin: "Sad", ustun: "Sa", esre: "Sı", otre: "Su", dosya: "sad", renk: "bg-yellow-500", basta: "صـ", ortada: "ـصـ", sonda: "ـص" },
+            { arapca: "ض", yalin: "Dat", ustun: "Da", esre: "Dı", otre: "Du", dosya: "dat", renk: "bg-green-500", basta: "ضـ", ortada: "ـضـ", sonda: "ـض" },
+            { arapca: "ط", yalin: "Tı", ustun: "Ta", esre: "Tı", otre: "Tu", dosya: "ti", renk: "bg-teal-500", basta: "طـ", ortada: "ـطـ", sonda: "ـط" },
+            { arapca: "ظ", yalin: "Zı", ustun: "Za", esre: "Zı", otre: "Zu", dosya: "zi", renk: "bg-cyan-500", basta: "ظـ", ortada: "ـظـ", sonda: "ـظ" },
+            { arapca: "ع", yalin: "Ayn", ustun: "A", esre: "I", otre: "U", dosya: "ayn", renk: "bg-blue-500", basta: "عـ", ortada: "ـعـ", sonda: "ـع" },
+            { arapca: "غ", yalin: "Ğayn", ustun: "Ğa", esre: "Ğı", otre: "Ğu", dosya: "gayn", renk: "bg-indigo-500", basta: "غـ", ortada: "ـغـ", sonda: "ـغ" },
+            { arapca: "ف", yalin: "Fe", ustun: "Fe", esre: "Fi", otre: "Fü", dosya: "fe", renk: "bg-purple-500", basta: "فـ", ortada: "ـفـ", sonda: "ـف" },
+            { arapca: "ق", yalin: "Kaf", ustun: "Ka", esre: "Kı", otre: "Ku", dosya: "kaf", renk: "bg-pink-500", basta: "قـ", ortada: "ـقـ", sonda: "ـق" },
+            { arapca: "ك", yalin: "Kef", ustun: "Ke", esre: "Ki", otre: "Kü", dosya: "kef", renk: "bg-rose-500", basta: "كـ", ortada: "ـكـ", sonda: "ـك" },
+            { arapca: "ل", yalin: "Lam", ustun: "Le", esre: "Li", otre: "Lü", dosya: "lam", renk: "bg-red-400", basta: "لـ", ortada: "ـلـ", sonda: "ـل" },
+            { arapca: "م", yalin: "Mim", ustun: "Me", esre: "Mi", otre: "Mü", dosya: "mim", renk: "bg-orange-400", basta: "مـ", ortada: "ـمـ", sonda: "ـم" },
+            { arapca: "ن", yalin: "Nun", ustun: "Ne", esre: "Ni", otre: "Nü", dosya: "nun", renk: "bg-yellow-400", basta: "نـ", ortada: "ـنـ", sonda: "ـن" },
+            { arapca: "و", yalin: "Vav", ustun: "Ve", esre: "Vi", otre: "Vü", dosya: "vav", renk: "bg-green-400", basta: "و", ortada: "ـو", sonda: "ـو" },
+            { arapca: "ه", yalin: "He", ustun: "He", esre: "Hi", otre: "Hü", dosya: "he", renk: "bg-teal-400", basta: "هـ", ortada: "ـهـ", sonda: "ـه" },
+            { arapca: "لا", yalin: "Lam-Elif", ustun: "Lâ", esre: "Lî", otre: "Lû", dosya: "lam_elif", renk: "bg-cyan-400", basta: "لا", ortada: "ـلا", sonda: "ـلا" },
+            { arapca: "ي", yalin: "Ye", ustun: "Ye", esre: "Yi", otre: "Yü", dosya: "ye", renk: "bg-blue-400", basta: "يـ", ortada: "ـيـ", sonda: "ـي" }
         ];
 
-        // Unicode Hareke Sembolleri
-        const HAREKELER = {
-            yalin: "",
-            ustun: "\u064E", // َ
-            esre: "\u0650",  // ِ
-            otre: "\u064F"   // ُ
-        };
-
-        const gridContainer = document.getElementById('harfler-grid');
-        const oyunBtn = document.getElementById('oyun-modu-btn');
-        const geribildirimAlani = document.getElementById('oyun-geribildirim');
-
-        let aktifHareke = 'yalin';
+        // --- 2. GENEL SİSTEM FONKSİYONLARI ---
         let aktifSes = null;
-        let oyunModu = false;
-        let hedefHarf = null;
+        function sesCal(dosyaAdi) {
+            if (aktifSes) { aktifSes.pause(); aktifSes.currentTime = 0; }
+            aktifSes = new Audio(`sesler/${dosyaAdi}.mp3`);
+            aktifSes.play().catch(e => console.warn("Ses çalınamadı", e));
+        }
 
-        // Hareke Menüsü Değişim Mantığı
+        // --- 3. MOD DEĞİŞTİRİCİ (Sekmeler Arası Geçiş) ---
+        function modDegistir(mod) {
+            document.querySelectorAll('.mod-btn').forEach(btn => {
+                btn.classList.replace('bg-indigo-500', 'bg-gray-200');
+                btn.classList.replace('text-white', 'text-gray-700');
+            });
+            const aktifBtn = document.getElementById(`btn-mod-${mod}`);
+            aktifBtn.classList.replace('bg-gray-200', 'bg-indigo-500');
+            aktifBtn.classList.replace('text-gray-700', 'text-white');
+
+            if(mod === 'ogrenme') {
+                document.getElementById('alan-ogrenme').classList.remove('hidden');
+                document.getElementById('alan-tren').classList.add('hidden');
+            } else {
+                document.getElementById('alan-ogrenme').classList.add('hidden');
+                document.getElementById('alan-tren').classList.remove('hidden');
+                document.getElementById('alan-tren').classList.add('flex');
+                trenOyununuBaslat();
+            }
+        }
+
+        // --- 4. TREN OYUNU MANTIĞI ---
+        let trenSoruHarfi = null;
+        let vagonSirasi = ['basta', 'ortada', 'sonda'];
+        let mevcutVagonIndex = 0; // Hangi vagonu dolduruyoruz (0: başta, 1: ortada, 2: sonda)
+
+        function trenOyununuBaslat() {
+            document.getElementById('tren-kapsayici').classList.remove('drive-away');
+            mevcutVagonIndex = 0;
+            
+            // Rastgele Harf Seç
+            const rastgeleIndex = Math.floor(Math.random() * elifBa.length);
+            trenSoruHarfi = elifBa[rastgeleIndex];
+            
+            // Soru alanını güncelle
+            document.getElementById('hedef-harf-gosterimi').innerText = `${trenSoruHarfi.arapca} - ${trenSoruHarfi.yalin}`;
+            document.getElementById('tren-mesaj').innerText = "";
+            document.getElementById('tren-mesaj').className = "mt-8 text-2xl font-black h-8 text-gray-500";
+            
+            // Vagonları Temizle
+            ['basta', 'ortada', 'sonda'].forEach(vagon => {
+                const el = document.getElementById(`vagon-${vagon}`);
+                el.innerText = "";
+                el.classList.replace('border-solid', 'border-dashed');
+                el.classList.remove('bg-green-100', 'border-green-400', 'text-green-700');
+                el.classList.add('bg-indigo-50', 'border-indigo-300', 'text-indigo-700');
+            });
+
+            // Seçenekleri Karıştır ve Ekrana Bas
+            let secenekler = [
+                { form: 'basta', gorsel: trenSoruHarfi.basta },
+                { form: 'ortada', gorsel: trenSoruHarfi.ortada },
+                { form: 'sonda', gorsel: trenSoruHarfi.sonda }
+            ];
+            secenekler.sort(() => Math.random() - 0.5); // Karıştırma
+
+            const seceneklerAlan = document.getElementById('tren-secenekler');
+            seceneklerAlan.innerHTML = '';
+            
+            secenekler.forEach(secenek => {
+                const btn = document.createElement('button');
+                btn.className = "bg-white border-2 border-indigo-200 text-5xl font-bold p-6 rounded-2xl shadow hover:bg-indigo-50 hover:scale-110 transition-all text-indigo-700";
+                btn.innerText = secenek.gorsel;
+                
+                btn.onclick = () => vagonDoldur(btn, secenek);
+                seceneklerAlan.appendChild(btn);
+            });
+            
+            sesCal(trenSoruHarfi.dosya); // Soru harfini seslendir
+        }
+
+        function vagonDoldur(butonElementi, secenekData) {
+            // Oyun bittiyse tıklamaları engelle
+            if(mevcutVagonIndex >= 3) return;
+
+            const beklenenForm = vagonSirasi[mevcutVagonIndex];
+            
+            // Doğru formu mu seçti? (Not: Bazı harflerin ortada ve sonda hali aynı olduğu için görsel eşitliğini de kontrol ediyoruz)
+            if (secenekData.form === beklenenForm || secenekData.gorsel === trenSoruHarfi[beklenenForm]) {
+                // Doğru vagon eşleşmesi
+                const vagonEl = document.getElementById(`vagon-${beklenenForm}`);
+                vagonEl.innerText = secenekData.gorsel;
+                vagonEl.classList.replace('border-dashed', 'border-solid');
+                
+                // Seçilen butonu gizle
+                butonElementi.style.visibility = 'hidden';
+                
+                mevcutVagonIndex++;
+                sesCal('pop_sesi'); // Varsa kısa bir 'tık' sesi çaldırılabilir (şimdilik harfi çalıyor)
+                
+                // Tren doldu mu?
+                if(mevcutVagonIndex === 3) {
+                    treniUgurla();
+                }
+            } else {
+                // Yanlış vagon eşleşmesi
+                const trenKapsayici = document.getElementById('tren-kapsayici');
+                trenKapsayici.classList.add('shake-animation');
+                document.getElementById('tren-mesaj').innerText = "❌ Hayır, bu form sıradaki vagona ait değil!";
+                document.getElementById('tren-mesaj').classList.replace('text-gray-500', 'text-red-500');
+                
+                setTimeout(() => {
+                    trenKapsayici.classList.remove('shake-animation');
+                    document.getElementById('tren-mesaj').innerText = "";
+                }, 1000);
+            }
+        }
+
+        function treniUgurla() {
+            document.getElementById('tren-mesaj').innerText = "🎉 Harika! Harfi başarıyla birleştirdin.";
+            document.getElementById('tren-mesaj').classList.replace('text-red-500', 'text-green-500');
+            
+            // Tüm vagonları yeşil yap
+            ['basta', 'ortada', 'sonda'].forEach(vagon => {
+                const el = document.getElementById(`vagon-${vagon}`);
+                el.classList.remove('bg-indigo-50', 'border-indigo-300', 'text-indigo-700');
+                el.classList.add('bg-green-100', 'border-green-400', 'text-green-700');
+            });
+            
+            sesCal(trenSoruHarfi.dosya); // Tebrik için harfin sesini çal
+            
+            // Treni yola çıkar
+            setTimeout(() => {
+                document.getElementById('tren-kapsayici').classList.add('drive-away');
+                
+                // 1.5 saniye sonra yeni soru getir
+                setTimeout(() => {
+                    trenOyununuBaslat();
+                }, 1500);
+            }, 1000);
+        }
+
+        // --- 5. ÖNCEKİ MODÜLLER İÇİN KODLAR (Harekeler ve Harf Bulma Oyunu) ---
+        // (Burası bir önceki aşamadaki işlevleri aynen koruyor)
+        const HAREKELER = { yalin: "", ustun: "\u064E", esre: "\u0650", otre: "\u064F" };
+        const gridContainer = document.getElementById('harfler-grid');
+        let aktifHareke = 'yalin';
+        let oyunModu = false;
+        let hedefHarfOgrenme = null;
+
         function harekeDegistir(harekeKodu) {
             aktifHareke = harekeKodu;
-            
-            // Butonların görsel durumunu güncelle (Aktif olanı mavi yap)
             document.querySelectorAll('.hareke-btn').forEach(btn => {
                 btn.classList.replace('bg-blue-500', 'bg-gray-100');
                 btn.classList.replace('text-white', 'text-gray-600');
@@ -114,73 +291,49 @@
             const aktifBtn = document.getElementById(`btn-${harekeKodu}`);
             aktifBtn.classList.replace('bg-gray-100', 'bg-blue-500');
             aktifBtn.classList.replace('text-gray-600', 'text-white');
-
-            // Eğer oyun açıksa, hareke değişince yeni soru sor
-            if (oyunModu) {
-                yeniSoruSor();
-            }
-
+            if (oyunModu) yeniSoruSorOgrenme();
             ekraniCiz();
         }
 
-        // Doğru ses dosyasının adını oluşturur
         function getSesDosyasiAdi(harfDosya) {
-            if (aktifHareke === 'yalin') return harfDosya;
-            return `${harfDosya}_${aktifHareke}`; 
-            // Örnek Çıktı: be_ustun, elif_esre
+            return aktifHareke === 'yalin' ? harfDosya : `${harfDosya}_${aktifHareke}`;
         }
 
-        function sesCal(dosyaAdi) {
-            if (aktifSes) {
-                aktifSes.pause();
-                aktifSes.currentTime = 0;
-            }
-            aktifSes = new Audio(`sesler/${getSesDosyasiAdi(dosyaAdi)}.mp3`);
-            aktifSes.play().catch(e => console.warn("Ses dosyası yok:", getSesDosyasiAdi(dosyaAdi)));
-        }
-
-        function yeniSoruSor() {
+        function yeniSoruSorOgrenme() {
             const rastgeleIndex = Math.floor(Math.random() * elifBa.length);
-            hedefHarf = elifBa[rastgeleIndex];
-            
-            geribildirimAlani.className = "text-2xl font-black text-center mb-6 py-3 px-8 rounded-full shadow-md bg-blue-100 text-blue-700 animate-pulse";
-            geribildirimAlani.innerHTML = `👂 Sesini duyduğun harfi bul!`;
-            
-            setTimeout(() => sesCal(hedefHarf.dosya), 500);
+            hedefHarfOgrenme = elifBa[rastgeleIndex];
+            const geribildirim = document.getElementById('oyun-geribildirim');
+            geribildirim.className = "text-2xl font-black text-center mb-6 py-3 px-8 rounded-full shadow-md bg-blue-100 text-blue-700 animate-pulse w-full max-w-3xl";
+            geribildirim.innerHTML = `👂 Sesini duyduğun harfi bul!`;
+            setTimeout(() => sesCal(getSesDosyasiAdi(hedefHarfOgrenme.dosya)), 500);
         }
 
-        // Oyun Butonu Kontrolü
-        oyunBtn.addEventListener('click', () => {
+        document.getElementById('oyun-modu-btn').addEventListener('click', () => {
+            const btn = document.getElementById('oyun-modu-btn');
             oyunModu = !oyunModu;
             if (oyunModu) {
-                oyunBtn.innerHTML = "🛑 Oyunu Bitir";
-                oyunBtn.classList.replace('bg-indigo-500', 'bg-red-500');
-                oyunBtn.classList.replace('hover:bg-indigo-600', 'hover:bg-red-600');
-                geribildirimAlani.classList.remove('hidden');
-                yeniSoruSor();
+                btn.innerHTML = "🛑 Oyunu Bitir";
+                btn.classList.replace('bg-green-500', 'bg-red-500');
+                btn.classList.replace('hover:bg-green-600', 'hover:bg-red-600');
+                document.getElementById('oyun-geribildirim').classList.remove('hidden');
+                yeniSoruSorOgrenme();
             } else {
-                oyunBtn.innerHTML = "🎮 Oyuna Başla!";
-                oyunBtn.classList.replace('bg-red-500', 'bg-indigo-500');
-                oyunBtn.classList.replace('hover:bg-red-600', 'hover:bg-indigo-600');
-                geribildirimAlani.classList.add('hidden');
-                hedefHarf = null;
+                btn.innerHTML = "🎮 Bulma Oyunu";
+                btn.classList.replace('bg-red-500', 'bg-green-500');
+                btn.classList.replace('hover:bg-red-600', 'hover:bg-green-600');
+                document.getElementById('oyun-geribildirim').classList.add('hidden');
+                hedefHarfOgrenme = null;
             }
         });
 
-        // Tüm Harfleri (Aktif Harekeye Göre) Ekrana Basma
         function ekraniCiz() {
-            gridContainer.innerHTML = ''; // Önce ekranı temizle
-            
+            gridContainer.innerHTML = '';
             elifBa.forEach(harf => {
                 const button = document.createElement('button');
                 button.className = `${harf.renk} text-white rounded-3xl p-6 shadow-lg transform transition-all duration-200 hover:scale-110 hover:shadow-2xl active:scale-95 flex flex-col items-center justify-center gap-2 relative overflow-hidden group`;
-                
-                // Arapça karaktere Unicode harekeyi ekliyoruz (Yalın ise boş string ekler)
                 const gorselArapca = harf.arapca + HAREKELER[aktifHareke];
-                
-                // Seçili harekeye göre Türkçe okunuşu alıyoruz
                 const gorselOkunus = harf[aktifHareke];
-
+                
                 button.innerHTML = `
                     <span class="text-6xl font-bold leading-none mb-2 pointer-events-none">${gorselArapca}</span>
                     <span class="text-xl font-bold opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-white text-gray-800 px-3 py-1 rounded-full absolute bottom-2 pointer-events-none">${gorselOkunus}</span>
@@ -188,37 +341,37 @@
 
                 button.addEventListener('click', () => {
                     if (!oyunModu) {
-                        sesCal(harf.dosya);
+                        sesCal(getSesDosyasiAdi(harf.dosya));
                         button.classList.add('opacity-75');
                         setTimeout(() => button.classList.remove('opacity-75'), 150);
                     } else {
-                        if (harf.arapca === hedefHarf.arapca) {
-                            geribildirimAlani.className = "text-2xl font-black text-center mb-6 py-3 px-8 rounded-full shadow-md bg-green-100 text-green-700";
-                            geribildirimAlani.innerHTML = `🎉 Harika! Doğru bildin: ${gorselOkunus}`;
-                            sesCal(harf.dosya);
+                        const geribildirim = document.getElementById('oyun-geribildirim');
+                        if (harf.arapca === hedefHarfOgrenme.arapca) {
+                            geribildirim.className = "text-2xl font-black text-center mb-6 py-3 px-8 rounded-full shadow-md bg-green-100 text-green-700 w-full max-w-3xl";
+                            geribildirim.innerHTML = `🎉 Harika! Doğru bildin: ${gorselOkunus}`;
+                            sesCal(getSesDosyasiAdi(harf.dosya));
                             button.classList.add('ring-4', 'ring-green-300', 'bg-green-500');
                             setTimeout(() => {
                                 button.classList.remove('ring-4', 'ring-green-300', 'bg-green-500');
-                                yeniSoruSor();
+                                yeniSoruSorOgrenme();
                             }, 2000);
                         } else {
-                            geribildirimAlani.className = "text-2xl font-black text-center mb-6 py-3 px-8 rounded-full shadow-md bg-red-100 text-red-700";
-                            geribildirimAlani.innerHTML = `❌ Tekrar dene!`;
+                            geribildirim.className = "text-2xl font-black text-center mb-6 py-3 px-8 rounded-full shadow-md bg-red-100 text-red-700 w-full max-w-3xl";
+                            geribildirim.innerHTML = `❌ Tekrar dene!`;
                             button.classList.add('shake-animation', 'bg-gray-400');
-                            sesCal(harf.dosya);
+                            sesCal(getSesDosyasiAdi(harf.dosya));
                             setTimeout(() => {
                                 button.classList.remove('shake-animation', 'bg-gray-400');
-                                setTimeout(() => sesCal(hedefHarf.dosya), 500);
+                                setTimeout(() => sesCal(getSesDosyasiAdi(hedefHarfOgrenme.dosya)), 500);
                             }, 500);
                         }
                     }
                 });
-
                 gridContainer.appendChild(button);
             });
         }
 
-        // Sayfa açıldığında ilk çizimi yap
+        // İlk Yükleme
         ekraniCiz();
     </script>
 </body>
