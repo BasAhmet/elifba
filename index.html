@@ -9,7 +9,6 @@
         @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap');
         body { font-family: 'Nunito', sans-serif; }
         
-        /* Yanlış cevap için titreme animasyonu */
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
             25% { transform: translateX(-5px); }
@@ -22,170 +21,205 @@
 </head>
 <body class="bg-blue-50 min-h-screen p-6 flex flex-col items-center">
 
-    <!-- Kontrol Paneli ve Başlık -->
-    <header class="text-center mb-8 w-full max-w-5xl flex flex-col md:flex-row items-center justify-between gap-4 bg-white p-6 rounded-3xl shadow-sm border border-blue-100">
+    <!-- Üst Kontrol Paneli -->
+    <header class="w-full max-w-5xl flex flex-col md:flex-row items-center justify-between gap-4 bg-white p-6 rounded-3xl shadow-sm border border-blue-100 mb-6">
         <div>
             <h1 class="text-3xl md:text-4xl font-black text-blue-600 drop-shadow-sm">Harfleri Öğrenelim 🚀</h1>
-            <p id="bilgi-metni" class="text-lg text-gray-600 mt-1 font-bold">Üzerlerine tıklayarak harflerin isimlerini öğren!</p>
+            <p id="bilgi-metni" class="text-lg text-gray-600 mt-1 font-bold">Harfleri ve harekeleri keşfet!</p>
         </div>
         
-        <!-- Oyun Modu Butonu -->
         <button id="oyun-modu-btn" class="bg-indigo-500 hover:bg-indigo-600 text-white text-xl font-bold py-4 px-8 rounded-2xl shadow-lg transition-all transform hover:scale-105 active:scale-95 flex items-center gap-2">
             🎮 Oyuna Başla!
         </button>
     </header>
 
-    <!-- Oyun İçi Geri Bildirim Alanı (Başlangıçta Gizli) -->
-    <div id="oyun-geribildirim" class="hidden text-2xl font-black text-center mb-6 py-3 px-8 rounded-full shadow-md transition-all">
-        <!-- Mesajlar buraya gelecek -->
+    <!-- HAREKE SEÇİM MENÜSÜ -->
+    <div class="w-full max-w-5xl flex flex-wrap justify-center gap-3 mb-8 bg-white p-3 rounded-2xl shadow-sm border border-blue-100">
+        <button onclick="harekeDegistir('yalin')" id="btn-yalin" class="hareke-btn bg-blue-500 text-white font-bold py-3 px-6 rounded-xl transition-all hover:scale-105">Bağımsız Harfler</button>
+        <button onclick="harekeDegistir('ustun')" id="btn-ustun" class="hareke-btn bg-gray-100 text-gray-600 font-bold py-3 px-6 rounded-xl transition-all hover:scale-105 hover:bg-gray-200">Üstün ( َ )</button>
+        <button onclick="harekeDegistir('esre')" id="btn-esre" class="hareke-btn bg-gray-100 text-gray-600 font-bold py-3 px-6 rounded-xl transition-all hover:scale-105 hover:bg-gray-200">Esre ( ِ )</button>
+        <button onclick="harekeDegistir('otre')" id="btn-otre" class="hareke-btn bg-gray-100 text-gray-600 font-bold py-3 px-6 rounded-xl transition-all hover:scale-105 hover:bg-gray-200">Ötre ( ُ )</button>
     </div>
+
+    <!-- Oyun İçi Geri Bildirim -->
+    <div id="oyun-geribildirim" class="hidden text-2xl font-black text-center mb-6 py-3 px-8 rounded-full shadow-md transition-all"></div>
 
     <!-- Harfler Grid -->
     <main class="w-full">
         <div id="harfler-grid" class="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-6 gap-4 max-w-5xl mx-auto flex-row-reverse" dir="rtl">
-            <!-- JavaScript ile harfler buraya eklenecek -->
+            <!-- JavaScript ile harfler buraya çizilecek -->
         </div>
     </main>
 
     <script>
+        // Genişletilmiş Veri Seti (Tüm okunuşlar eklendi)
         const elifBa = [
-            { arapca: "ا", okunus: "Elif", dosya: "elif", renk: "bg-red-400" },
-            { arapca: "ب", okunus: "Be", dosya: "be", renk: "bg-orange-400" },
-            { arapca: "ت", okunus: "Te", dosya: "te", renk: "bg-yellow-400" },
-            { arapca: "ث", okunus: "Se", dosya: "se", renk: "bg-green-400" },
-            { arapca: "ج", okunus: "Cim", dosya: "cim", renk: "bg-teal-400" },
-            { arapca: "ح", okunus: "Ha", dosya: "ha", renk: "bg-cyan-400" },
-            { arapca: "خ", okunus: "Hı", dosya: "hi", renk: "bg-blue-400" },
-            { arapca: "د", okunus: "Dal", dosya: "dal", renk: "bg-indigo-400" },
-            { arapca: "ذ", okunus: "Zel", dosya: "zel", renk: "bg-purple-400" },
-            { arapca: "ر", okunus: "Ra", dosya: "ra", renk: "bg-pink-400" },
-            { arapca: "ز", okunus: "Ze", dosya: "ze", renk: "bg-rose-400" },
-            { arapca: "س", okunus: "Sin", dosya: "sin", renk: "bg-red-500" },
-            { arapca: "ش", okunus: "Şın", dosya: "sin2", renk: "bg-orange-500" },
-            { arapca: "ص", okunus: "Sad", dosya: "sad", renk: "bg-yellow-500" },
-            { arapca: "ض", okunus: "Dat", dosya: "dat", renk: "bg-green-500" },
-            { arapca: "ط", okunus: "Tı", dosya: "ti", renk: "bg-teal-500" },
-            { arapca: "ظ", okunus: "Zı", dosya: "zi", renk: "bg-cyan-500" },
-            { arapca: "ع", okunus: "Ayn", dosya: "ayn", renk: "bg-blue-500" },
-            { arapca: "غ", okunus: "Ğayn", dosya: "gayn", renk: "bg-indigo-500" },
-            { arapca: "ف", okunus: "Fe", dosya: "fe", renk: "bg-purple-500" },
-            { arapca: "ق", okunus: "Kaf", dosya: "kaf", renk: "bg-pink-500" },
-            { arapca: "ك", okunus: "Kef", dosya: "kef", renk: "bg-rose-500" },
-            { arapca: "ل", okunus: "Lam", dosya: "lam", renk: "bg-red-400" },
-            { arapca: "م", okunus: "Mim", dosya: "mim", renk: "bg-orange-400" },
-            { arapca: "ن", okunus: "Nun", dosya: "nun", renk: "bg-yellow-400" },
-            { arapca: "و", okunus: "Vav", dosya: "vav", renk: "bg-green-400" },
-            { arapca: "ه", okunus: "He", dosya: "he", renk: "bg-teal-400" },
-            { arapca: "لا", okunus: "Lam-Elif", dosya: "lam_elif", renk: "bg-cyan-400" },
-            { arapca: "ي", okunus: "Ye", dosya: "ye", renk: "bg-blue-400" }
+            { arapca: "ا", yalin: "Elif", ustun: "E", esre: "İ", otre: "Ü", dosya: "elif", renk: "bg-red-400" },
+            { arapca: "ب", yalin: "Be", ustun: "Be", esre: "Bi", otre: "Bü", dosya: "be", renk: "bg-orange-400" },
+            { arapca: "ت", yalin: "Te", ustun: "Te", esre: "Ti", otre: "Tü", dosya: "te", renk: "bg-yellow-400" },
+            { arapca: "ث", yalin: "Se", ustun: "Se", esre: "Si", otre: "Sü", dosya: "se", renk: "bg-green-400" },
+            { arapca: "ج", yalin: "Cim", ustun: "Ce", esre: "Ci", otre: "Cü", dosya: "cim", renk: "bg-teal-400" },
+            { arapca: "ح", yalin: "Ha", ustun: "Ha", esre: "Hı", otre: "Hu", dosya: "ha", renk: "bg-cyan-400" }, 
+            { arapca: "خ", yalin: "Hı", ustun: "Ha", esre: "Hı", otre: "Hu", dosya: "hi", renk: "bg-blue-400" }, 
+            { arapca: "د", yalin: "Dal", ustun: "De", esre: "Di", otre: "Dü", dosya: "dal", renk: "bg-indigo-400" },
+            { arapca: "ذ", yalin: "Zel", ustun: "Ze", esre: "Zi", otre: "Zü", dosya: "zel", renk: "bg-purple-400" },
+            { arapca: "ر", yalin: "Ra", ustun: "Ra", esre: "Ri", otre: "Ru", dosya: "ra", renk: "bg-pink-400" }, 
+            { arapca: "ز", yalin: "Ze", ustun: "Ze", esre: "Zi", otre: "Zü", dosya: "ze", renk: "bg-rose-400" },
+            { arapca: "س", yalin: "Sin", ustun: "Se", esre: "Si", otre: "Sü", dosya: "sin", renk: "bg-red-500" },
+            { arapca: "ش", yalin: "Şın", ustun: "Şe", esre: "Şi", otre: "Şü", dosya: "sin2", renk: "bg-orange-500" },
+            { arapca: "ص", yalin: "Sad", ustun: "Sa", esre: "Sı", otre: "Su", dosya: "sad", renk: "bg-yellow-500" }, 
+            { arapca: "ض", yalin: "Dat", ustun: "Da", esre: "Dı", otre: "Du", dosya: "dat", renk: "bg-green-500" }, 
+            { arapca: "ط", yalin: "Tı", ustun: "Ta", esre: "Tı", otre: "Tu", dosya: "ti", renk: "bg-teal-500" }, 
+            { arapca: "ظ", yalin: "Zı", ustun: "Za", esre: "Zı", otre: "Zu", dosya: "zi", renk: "bg-cyan-500" }, 
+            { arapca: "ع", yalin: "Ayn", ustun: "A", esre: "I", otre: "U", dosya: "ayn", renk: "bg-blue-500" }, 
+            { arapca: "غ", yalin: "Ğayn", ustun: "Ğa", esre: "Ğı", otre: "Ğu", dosya: "gayn", renk: "bg-indigo-500" }, 
+            { arapca: "ف", yalin: "Fe", ustun: "Fe", esre: "Fi", otre: "Fü", dosya: "fe", renk: "bg-purple-500" },
+            { arapca: "ق", yalin: "Kaf", ustun: "Ka", esre: "Kı", otre: "Ku", dosya: "kaf", renk: "bg-pink-500" }, 
+            { arapca: "ك", yalin: "Kef", ustun: "Ke", esre: "Ki", otre: "Kü", dosya: "kef", renk: "bg-rose-500" },
+            { arapca: "ل", yalin: "Lam", ustun: "Le", esre: "Li", otre: "Lü", dosya: "lam", renk: "bg-red-400" },
+            { arapca: "م", yalin: "Mim", ustun: "Me", esre: "Mi", otre: "Mü", dosya: "mim", renk: "bg-orange-400" },
+            { arapca: "ن", yalin: "Nun", ustun: "Ne", esre: "Ni", otre: "Nü", dosya: "nun", renk: "bg-yellow-400" },
+            { arapca: "و", yalin: "Vav", ustun: "Ve", esre: "Vi", otre: "Vü", dosya: "vav", renk: "bg-green-400" },
+            { arapca: "ه", yalin: "He", ustun: "He", esre: "Hi", otre: "Hü", dosya: "he", renk: "bg-teal-400" },
+            { arapca: "لا", yalin: "Lam-Elif", ustun: "Lâ", esre: "Lî", otre: "Lû", dosya: "lam_elif", renk: "bg-cyan-400" },
+            { arapca: "ي", yalin: "Ye", ustun: "Ye", esre: "Yi", otre: "Yü", dosya: "ye", renk: "bg-blue-400" }
         ];
+
+        // Unicode Hareke Sembolleri
+        const HAREKELER = {
+            yalin: "",
+            ustun: "\u064E", // َ
+            esre: "\u0650",  // ِ
+            otre: "\u064F"   // ُ
+        };
 
         const gridContainer = document.getElementById('harfler-grid');
         const oyunBtn = document.getElementById('oyun-modu-btn');
-        const bilgiMetni = document.getElementById('bilgi-metni');
         const geribildirimAlani = document.getElementById('oyun-geribildirim');
 
+        let aktifHareke = 'yalin';
         let aktifSes = null;
         let oyunModu = false;
         let hedefHarf = null;
 
-        // Sesi çalan yardımcı fonksiyon
+        // Hareke Menüsü Değişim Mantığı
+        function harekeDegistir(harekeKodu) {
+            aktifHareke = harekeKodu;
+            
+            // Butonların görsel durumunu güncelle (Aktif olanı mavi yap)
+            document.querySelectorAll('.hareke-btn').forEach(btn => {
+                btn.classList.replace('bg-blue-500', 'bg-gray-100');
+                btn.classList.replace('text-white', 'text-gray-600');
+            });
+            const aktifBtn = document.getElementById(`btn-${harekeKodu}`);
+            aktifBtn.classList.replace('bg-gray-100', 'bg-blue-500');
+            aktifBtn.classList.replace('text-gray-600', 'text-white');
+
+            // Eğer oyun açıksa, hareke değişince yeni soru sor
+            if (oyunModu) {
+                yeniSoruSor();
+            }
+
+            ekraniCiz();
+        }
+
+        // Doğru ses dosyasının adını oluşturur
+        function getSesDosyasiAdi(harfDosya) {
+            if (aktifHareke === 'yalin') return harfDosya;
+            return `${harfDosya}_${aktifHareke}`; 
+            // Örnek Çıktı: be_ustun, elif_esre
+        }
+
         function sesCal(dosyaAdi) {
             if (aktifSes) {
                 aktifSes.pause();
                 aktifSes.currentTime = 0;
             }
-            aktifSes = new Audio(`sesler/${dosyaAdi}.mp3`);
-            aktifSes.play().catch(e => console.warn("Ses çalınamadı:", e));
+            aktifSes = new Audio(`sesler/${getSesDosyasiAdi(dosyaAdi)}.mp3`);
+            aktifSes.play().catch(e => console.warn("Ses dosyası yok:", getSesDosyasiAdi(dosyaAdi)));
         }
 
-        // Yeni soru sorma fonksiyonu
         function yeniSoruSor() {
-            // Rastgele bir harf seç
             const rastgeleIndex = Math.floor(Math.random() * elifBa.length);
             hedefHarf = elifBa[rastgeleIndex];
             
             geribildirimAlani.className = "text-2xl font-black text-center mb-6 py-3 px-8 rounded-full shadow-md bg-blue-100 text-blue-700 animate-pulse";
-            geribildirimAlani.innerHTML = `👂 Şimdi sesini duyduğun harfi bul!`;
+            geribildirimAlani.innerHTML = `👂 Sesini duyduğun harfi bul!`;
             
-            // Seçilen harfin sesini çal
             setTimeout(() => sesCal(hedefHarf.dosya), 500);
         }
 
-        // Oyun modunu açıp kapatma
+        // Oyun Butonu Kontrolü
         oyunBtn.addEventListener('click', () => {
             oyunModu = !oyunModu;
-            
             if (oyunModu) {
                 oyunBtn.innerHTML = "🛑 Oyunu Bitir";
                 oyunBtn.classList.replace('bg-indigo-500', 'bg-red-500');
                 oyunBtn.classList.replace('hover:bg-indigo-600', 'hover:bg-red-600');
-                bilgiMetni.innerText = "Sesi dinle ve doğru harfi bul!";
                 geribildirimAlani.classList.remove('hidden');
                 yeniSoruSor();
             } else {
                 oyunBtn.innerHTML = "🎮 Oyuna Başla!";
                 oyunBtn.classList.replace('bg-red-500', 'bg-indigo-500');
                 oyunBtn.classList.replace('hover:bg-red-600', 'hover:bg-indigo-600');
-                bilgiMetni.innerText = "Üzerlerine tıklayarak harflerin isimlerini öğren!";
                 geribildirimAlani.classList.add('hidden');
                 hedefHarf = null;
             }
         });
 
-        // Harfleri Ekrana Basma ve Tıklama Olayları
-        elifBa.forEach(harf => {
-            const button = document.createElement('button');
-            button.className = `${harf.renk} text-white rounded-3xl p-6 shadow-lg transform transition-all duration-200 hover:scale-110 hover:shadow-2xl active:scale-95 flex flex-col items-center justify-center gap-2 relative overflow-hidden group`;
+        // Tüm Harfleri (Aktif Harekeye Göre) Ekrana Basma
+        function ekraniCiz() {
+            gridContainer.innerHTML = ''; // Önce ekranı temizle
             
-            button.innerHTML = `
-                <span class="text-6xl font-bold leading-none mb-2 pointer-events-none">${harf.arapca}</span>
-                <span class="text-xl font-bold opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-white text-gray-800 px-3 py-1 rounded-full absolute bottom-2 pointer-events-none">${harf.okunus}</span>
-            `;
+            elifBa.forEach(harf => {
+                const button = document.createElement('button');
+                button.className = `${harf.renk} text-white rounded-3xl p-6 shadow-lg transform transition-all duration-200 hover:scale-110 hover:shadow-2xl active:scale-95 flex flex-col items-center justify-center gap-2 relative overflow-hidden group`;
+                
+                // Arapça karaktere Unicode harekeyi ekliyoruz (Yalın ise boş string ekler)
+                const gorselArapca = harf.arapca + HAREKELER[aktifHareke];
+                
+                // Seçili harekeye göre Türkçe okunuşu alıyoruz
+                const gorselOkunus = harf[aktifHareke];
 
-            button.addEventListener('click', () => {
-                if (!oyunModu) {
-                    // Normal Öğrenme Modu
-                    sesCal(harf.dosya);
-                    button.classList.add('opacity-75');
-                    setTimeout(() => button.classList.remove('opacity-75'), 150);
-                } else {
-                    // Oyun Modu Aktifse
-                    if (harf.arapca === hedefHarf.arapca) {
-                        // Doğru Bildi!
-                        geribildirimAlani.className = "text-2xl font-black text-center mb-6 py-3 px-8 rounded-full shadow-md bg-green-100 text-green-700";
-                        geribildirimAlani.innerHTML = `🎉 Harika! Doğru bildin: ${harf.okunus}`;
-                        sesCal(harf.dosya); // Doğru harfi tekrar çal
-                        
-                        // Butona yeşil parlama efekti ver
-                        button.classList.add('ring-4', 'ring-green-300', 'bg-green-500');
-                        
-                        // 2 saniye sonra yeni soru sor
-                        setTimeout(() => {
-                            button.classList.remove('ring-4', 'ring-green-300', 'bg-green-500');
-                            yeniSoruSor();
-                        }, 2000);
+                button.innerHTML = `
+                    <span class="text-6xl font-bold leading-none mb-2 pointer-events-none">${gorselArapca}</span>
+                    <span class="text-xl font-bold opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-white text-gray-800 px-3 py-1 rounded-full absolute bottom-2 pointer-events-none">${gorselOkunus}</span>
+                `;
 
+                button.addEventListener('click', () => {
+                    if (!oyunModu) {
+                        sesCal(harf.dosya);
+                        button.classList.add('opacity-75');
+                        setTimeout(() => button.classList.remove('opacity-75'), 150);
                     } else {
-                        // Yanlış Bildi!
-                        geribildirimAlani.className = "text-2xl font-black text-center mb-6 py-3 px-8 rounded-full shadow-md bg-red-100 text-red-700";
-                        geribildirimAlani.innerHTML = `❌ Tekrar dene! Aradığımız harf bu değildi.`;
-                        
-                        // Butonu titret
-                        button.classList.add('shake-animation', 'bg-gray-400');
-                        sesCal(harf.dosya); // Tıkladığı yanlış harfin ne olduğunu duysun
-                        
-                        setTimeout(() => {
-                            button.classList.remove('shake-animation', 'bg-gray-400');
-                            // Tekrar aranan harfin sesini hatırlat
-                            setTimeout(() => sesCal(hedefHarf.dosya), 500);
-                        }, 500);
+                        if (harf.arapca === hedefHarf.arapca) {
+                            geribildirimAlani.className = "text-2xl font-black text-center mb-6 py-3 px-8 rounded-full shadow-md bg-green-100 text-green-700";
+                            geribildirimAlani.innerHTML = `🎉 Harika! Doğru bildin: ${gorselOkunus}`;
+                            sesCal(harf.dosya);
+                            button.classList.add('ring-4', 'ring-green-300', 'bg-green-500');
+                            setTimeout(() => {
+                                button.classList.remove('ring-4', 'ring-green-300', 'bg-green-500');
+                                yeniSoruSor();
+                            }, 2000);
+                        } else {
+                            geribildirimAlani.className = "text-2xl font-black text-center mb-6 py-3 px-8 rounded-full shadow-md bg-red-100 text-red-700";
+                            geribildirimAlani.innerHTML = `❌ Tekrar dene!`;
+                            button.classList.add('shake-animation', 'bg-gray-400');
+                            sesCal(harf.dosya);
+                            setTimeout(() => {
+                                button.classList.remove('shake-animation', 'bg-gray-400');
+                                setTimeout(() => sesCal(hedefHarf.dosya), 500);
+                            }, 500);
+                        }
                     }
-                }
-            });
+                });
 
-            gridContainer.appendChild(button);
-        });
+                gridContainer.appendChild(button);
+            });
+        }
+
+        // Sayfa açıldığında ilk çizimi yap
+        ekraniCiz();
     </script>
 </body>
 </html>
