@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oyunlu Elif Ba Öğreniyorum</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Çocuklar için eğlenceli ve yumuşak bir font */
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap');
+        body { font-family: 'Nunito', sans-serif; }
+    </style>
+</head>
+<body class="bg-blue-50 min-h-screen p-6">
+
+    <header class="text-center mb-8">
+        <h1 class="text-4xl md:text-5xl font-black text-blue-600 drop-shadow-sm">Harfleri Öğrenelim 🚀</h1>
+        <p class="text-xl text-gray-600 mt-2 font-bold">Üzerlerine tıklayarak harflerin isimlerini öğren!</p>
+    </header>
+
+    <main>
+        <div id="harfler-grid" class="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-6 gap-4 max-w-5xl mx-auto flex-row-reverse" dir="rtl">
+            </div>
+    </main>
+
+    <script>
+        // Elif Ba'nın tamamı (Arapça karakterler ve okunuşları)
+        const elifBa = [
+            { arapca: "ا", okunus: "Elif", renk: "bg-red-400" },
+            { arapca: "ب", okunus: "Be", renk: "bg-orange-400" },
+            { arapca: "ت", okunus: "Te", renk: "bg-yellow-400" },
+            { arapca: "ث", okunus: "Se", renk: "bg-green-400" },
+            { arapca: "ج", okunus: "Cim", renk: "bg-teal-400" },
+            { arapca: "ح", okunus: "Ha", renk: "bg-cyan-400" },
+            { arapca: "خ", okunus: "Hı", renk: "bg-blue-400" },
+            { arapca: "د", okunus: "Dal", renk: "bg-indigo-400" },
+            { arapca: "ذ", okunus: "Zel", renk: "bg-purple-400" },
+            { arapca: "ر", okunus: "Ra", renk: "bg-pink-400" },
+            { arapca: "ز", okunus: "Ze", renk: "bg-rose-400" },
+            { arapca: "س", okunus: "Sin", renk: "bg-red-500" },
+            { arapca: "ش", okunus: "Şın", renk: "bg-orange-500" },
+            { arapca: "ص", okunus: "Sad", renk: "bg-yellow-500" },
+            { arapca: "ض", okunus: "Dat", renk: "bg-green-500" },
+            { arapca: "ط", okunus: "Tı", renk: "bg-teal-500" },
+            { arapca: "ظ", okunus: "Zı", renk: "bg-cyan-500" },
+            { arapca: "ع", okunus: "Ayn", renk: "bg-blue-500" },
+            { arapca: "غ", okunus: "Ğayn", renk: "bg-indigo-500" },
+            { arapca: "ف", okunus: "Fe", renk: "bg-purple-500" },
+            { arapca: "ق", okunus: "Kaf", renk: "bg-pink-500" },
+            { arapca: "ك", okunus: "Kef", renk: "bg-rose-500" },
+            { arapca: "ل", okunus: "Lam", renk: "bg-red-400" },
+            { arapca: "م", okunus: "Mim", renk: "bg-orange-400" },
+            { arapca: "ن", okunus: "Nun", renk: "bg-yellow-400" },
+            { arapca: "و", okunus: "Vav", renk: "bg-green-400" },
+            { arapca: "ه", okunus: "He", renk: "bg-teal-400" },
+            { arapca: "لا", okunus: "Lam-Elif", renk: "bg-cyan-400" },
+            { arapca: "ي", okunus: "Ye", renk: "bg-blue-400" }
+        ];
+
+        const gridContainer = document.getElementById('harfler-grid');
+
+        // Harfleri ekrana basan fonksiyon
+        elifBa.forEach(harf => {
+            const button = document.createElement('button');
+            button.className = `${harf.renk} text-white rounded-3xl p-6 shadow-lg transform transition-all duration-200 hover:scale-110 hover:shadow-2xl active:scale-95 flex flex-col items-center justify-center gap-2 relative overflow-hidden group`;
+            
+            button.innerHTML = `
+                <span class="text-6xl font-bold leading-none mb-2">${harf.arapca}</span>
+                <span class="text-xl font-bold opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-white text-gray-800 px-3 py-1 rounded-full absolute bottom-2">${harf.okunus}</span>
+            `;
+
+            // Tıklama animasyonu ve ses için placeholder
+            button.addEventListener('click', () => {
+                console.log(`${harf.okunus} harfine tıklandı!`);
+                // İleride buraya ses çalma kodu gelecek
+            });
+
+            gridContainer.appendChild(button);
+        });
+    </script>
+</body>
+</html>
