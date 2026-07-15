@@ -24,40 +24,43 @@
     </main>
 
     <script>
-        // Elif Ba'nın tamamı (Arapça karakterler ve okunuşları)
+       // Elif Ba'nın tamamı ve ses dosyası isimleri
         const elifBa = [
-            { arapca: "ا", okunus: "Elif", renk: "bg-red-400" },
-            { arapca: "ب", okunus: "Be", renk: "bg-orange-400" },
-            { arapca: "ت", okunus: "Te", renk: "bg-yellow-400" },
-            { arapca: "ث", okunus: "Se", renk: "bg-green-400" },
-            { arapca: "ج", okunus: "Cim", renk: "bg-teal-400" },
-            { arapca: "ح", okunus: "Ha", renk: "bg-cyan-400" },
-            { arapca: "خ", okunus: "Hı", renk: "bg-blue-400" },
-            { arapca: "د", okunus: "Dal", renk: "bg-indigo-400" },
-            { arapca: "ذ", okunus: "Zel", renk: "bg-purple-400" },
-            { arapca: "ر", okunus: "Ra", renk: "bg-pink-400" },
-            { arapca: "ز", okunus: "Ze", renk: "bg-rose-400" },
-            { arapca: "س", okunus: "Sin", renk: "bg-red-500" },
-            { arapca: "ش", okunus: "Şın", renk: "bg-orange-500" },
-            { arapca: "ص", okunus: "Sad", renk: "bg-yellow-500" },
-            { arapca: "ض", okunus: "Dat", renk: "bg-green-500" },
-            { arapca: "ط", okunus: "Tı", renk: "bg-teal-500" },
-            { arapca: "ظ", okunus: "Zı", renk: "bg-cyan-500" },
-            { arapca: "ع", okunus: "Ayn", renk: "bg-blue-500" },
-            { arapca: "غ", okunus: "Ğayn", renk: "bg-indigo-500" },
-            { arapca: "ف", okunus: "Fe", renk: "bg-purple-500" },
-            { arapca: "ق", okunus: "Kaf", renk: "bg-pink-500" },
-            { arapca: "ك", okunus: "Kef", renk: "bg-rose-500" },
-            { arapca: "ل", okunus: "Lam", renk: "bg-red-400" },
-            { arapca: "م", okunus: "Mim", renk: "bg-orange-400" },
-            { arapca: "ن", okunus: "Nun", renk: "bg-yellow-400" },
-            { arapca: "و", okunus: "Vav", renk: "bg-green-400" },
-            { arapca: "ه", okunus: "He", renk: "bg-teal-400" },
-            { arapca: "لا", okunus: "Lam-Elif", renk: "bg-cyan-400" },
-            { arapca: "ي", okunus: "Ye", renk: "bg-blue-400" }
+            { arapca: "ا", okunus: "Elif", dosya: "elif", renk: "bg-red-400" },
+            { arapca: "ب", okunus: "Be", dosya: "be", renk: "bg-orange-400" },
+            { arapca: "ت", okunus: "Te", dosya: "te", renk: "bg-yellow-400" },
+            { arapca: "ث", okunus: "Se", dosya: "se", renk: "bg-green-400" },
+            { arapca: "ج", okunus: "Cim", dosya: "cim", renk: "bg-teal-400" },
+            { arapca: "ح", okunus: "Ha", dosya: "ha", renk: "bg-cyan-400" },
+            { arapca: "خ", okunus: "Hı", dosya: "hi", renk: "bg-blue-400" },
+            { arapca: "د", okunus: "Dal", dosya: "dal", renk: "bg-indigo-400" },
+            { arapca: "ذ", okunus: "Zel", dosya: "zel", renk: "bg-purple-400" },
+            { arapca: "ر", okunus: "Ra", dosya: "ra", renk: "bg-pink-400" },
+            { arapca: "ز", okunus: "Ze", dosya: "ze", renk: "bg-rose-400" },
+            { arapca: "س", okunus: "Sin", dosya: "sin", renk: "bg-red-500" },
+            { arapca: "ش", okunus: "Şın", dosya: "sin2", renk: "bg-orange-500" }, // Çakışmamak için sin2 yapılabilir
+            { arapca: "ص", okunus: "Sad", dosya: "sad", renk: "bg-yellow-500" },
+            { arapca: "ض", okunus: "Dat", dosya: "dat", renk: "bg-green-500" },
+            { arapca: "ط", okunus: "Tı", dosya: "ti", renk: "bg-teal-500" },
+            { arapca: "ظ", okunus: "Zı", dosya: "zi", renk: "bg-cyan-500" },
+            { arapca: "ع", okunus: "Ayn", dosya: "ayn", renk: "bg-blue-500" },
+            { arapca: "غ", okunus: "Ğayn", dosya: "gayn", renk: "bg-indigo-500" },
+            { arapca: "ف", okunus: "Fe", dosya: "fe", renk: "bg-purple-500" },
+            { arapca: "ق", okunus: "Kaf", dosya: "kaf", renk: "bg-pink-500" },
+            { arapca: "ك", okunus: "Kef", dosya: "kef", renk: "bg-rose-500" },
+            { arapca: "ل", okunus: "Lam", dosya: "lam", renk: "bg-red-400" },
+            { arapca: "م", okunus: "Mim", dosya: "mim", renk: "bg-orange-400" },
+            { arapca: "ن", okunus: "Nun", dosya: "nun", renk: "bg-yellow-400" },
+            { arapca: "و", okunus: "Vav", dosya: "vav", renk: "bg-green-400" },
+            { arapca: "ه", okunus: "He", dosya: "he", renk: "bg-teal-400" },
+            { arapca: "لا", okunus: "Lam-Elif", dosya: "lam_elif", renk: "bg-cyan-400" },
+            { arapca: "ي", okunus: "Ye", dosya: "ye", renk: "bg-blue-400" }
         ];
 
         const gridContainer = document.getElementById('harfler-grid');
+        
+        // Eşzamanlı ses çakışmalarını önlemek için global bir audio değişkeni tutuyoruz
+        let aktifSes = null;
 
         // Harfleri ekrana basan fonksiyon
         elifBa.forEach(harf => {
@@ -65,16 +68,33 @@
             button.className = `${harf.renk} text-white rounded-3xl p-6 shadow-lg transform transition-all duration-200 hover:scale-110 hover:shadow-2xl active:scale-95 flex flex-col items-center justify-center gap-2 relative overflow-hidden group`;
             
             button.innerHTML = `
-                <span class="text-6xl font-bold leading-none mb-2">${harf.arapca}</span>
-                <span class="text-xl font-bold opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-white text-gray-800 px-3 py-1 rounded-full absolute bottom-2">${harf.okunus}</span>
+                <span class="text-6xl font-bold leading-none mb-2 pointer-events-none">${harf.arapca}</span>
+                <span class="text-xl font-bold opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-white text-gray-800 px-3 py-1 rounded-full absolute bottom-2 pointer-events-none">${harf.okunus}</span>
             `;
-
-            // Tıklama animasyonu ve ses için placeholder
+        
             button.addEventListener('click', () => {
-                console.log(`${harf.okunus} harfine tıklandı!`);
-                // İleride buraya ses çalma kodu gelecek
+                // Eğer o an çalan başka bir harf sesi varsa, onu sustur
+                if (aktifSes) {
+                    aktifSes.pause();
+                    aktifSes.currentTime = 0;
+                }
+        
+                // Yeni sesi oluştur ve çal
+                const yeniSes = new Audio(`sesler/${harf.dosya}.mp3`);
+                
+                // Ses çalarken hata olursa (dosya yoksa) console'a yaz, sayfayı çökertme
+                yeniSes.play().catch(error => {
+                    console.warn(`Ses dosyası bulunamadı: sesler/${harf.dosya}.mp3`, error);
+                });
+        
+                // Yeni sesi globale ata ki bir sonraki tıklamada kontrol edilebilsin
+                aktifSes = yeniSes;
+                
+                // Tıklanan butona anlık ekstra bir görsel tepki (flaş etkisi) ver
+                button.classList.add('opacity-75');
+                setTimeout(() => button.classList.remove('opacity-75'), 150);
             });
-
+        
             gridContainer.appendChild(button);
         });
     </script>
