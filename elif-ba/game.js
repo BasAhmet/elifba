@@ -9,14 +9,22 @@ let score = 0;
 
 function loadLevel() {
   if (currentLevel >= levels.length) {
-    document.querySelector('.game-container').innerHTML = `<h2>Tebrikler! 🎉</h2><p>Bölümü tamamladın. Skorun: ${score}</p><a href="../index.html">Ana Menüye Dön</a>`;
+    document.querySelector('.game-container').innerHTML = `
+      <h2>Tebrikler! 🎉</h2>
+      <p>Bölümü tamamladın. Skorun: ${score}</p>
+      <a href="../index.html" class="back-link">← Ana Menüye Dön</a>
+    `;
     return;
   }
+  
   const levelData = levels[currentLevel];
   document.getElementById('mainLetter').innerText = levelData.letter;
   document.getElementById('instruction').innerText = levelData.instruction;
+  
   const optionsContainer = document.getElementById('optionsContainer');
   optionsContainer.innerHTML = '';
+  
+  // Şıkları karıştırarak ekleme
   levelData.options.sort(() => Math.random() - 0.5).forEach(opt => {
     const btn = document.createElement('div');
     btn.className = 'option';
@@ -28,16 +36,24 @@ function loadLevel() {
 
 function checkAnswer(btn, selected, correct) {
   const allBtns = document.querySelectorAll('.option');
+  
+  // Tıklandıktan sonra diğer butonları pasif yap
   allBtns.forEach(b => b.style.pointerEvents = 'none');
+  
   if (selected === correct) {
     btn.classList.add('correct');
     score += 10;
     document.getElementById('score').innerText = score;
+    currentLevel++;
     setTimeout(loadLevel, 1000);
   } else {
     btn.classList.add('wrong');
-    setTimeout(() => { btn.classList.remove('wrong'); allBtns.forEach(b => b.style.pointerEvents = 'auto'); }, 500);
+    setTimeout(() => { 
+        btn.classList.remove('wrong'); 
+        allBtns.forEach(b => b.style.pointerEvents = 'auto'); 
+    }, 500);
   }
 }
 
+// Oyunu ilk kez başlat
 loadLevel();
