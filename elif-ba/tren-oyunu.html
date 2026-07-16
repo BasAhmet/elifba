@@ -1,4 +1,12 @@
-    <!-- TREN OYUNU ALANI (Başlangıçta Gizli) -->
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elif Ba - Tren Oyunu</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
     <div id="alan-tren" class="hidden w-full max-w-4xl flex flex-col items-center">
         <div class="bg-white p-8 rounded-3xl shadow-lg border border-indigo-100 w-full text-center">
             <h2 class="text-3xl font-black text-indigo-600 mb-2">Harfleri Vagonlara Diz!</h2>
@@ -40,9 +48,8 @@
             <div id="tren-mesaj" class="mt-8 text-2xl font-black h-8"></div>
         </div>
     </div>
-
-
-        // --- 4. TREN OYUNU MANTIĞI ---
+</body>
+<script>
         let trenSoruHarfi = null;
         let vagonSirasi = ['basta', 'ortada', 'sonda'];
         let mevcutVagonIndex = 0; // Hangi vagonu dolduruyoruz (0: başta, 1: ortada, 2: sonda)
@@ -152,4 +159,5 @@
                 }, 1500);
             }, 1000);
         }
+    </script>
 
