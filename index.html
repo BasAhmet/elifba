@@ -28,15 +28,19 @@
 
     <!-- Ana Menü / Navigasyon -->
     <header class="w-full max-w-5xl bg-white p-4 rounded-3xl shadow-sm border border-blue-100 mb-6 flex flex-col md:flex-row items-center justify-between gap-4">
-        <div>
-            <h1 class="text-3xl font-black text-blue-600 drop-shadow-sm">Elif Ba 🚀</h1>
-        </div>
-        <div class="flex flex-wrap gap-2 justify-center">
-            <button onclick="modDegistir('ogrenme')" id="btn-mod-ogrenme" class="mod-btn bg-indigo-500 text-white font-bold py-3 px-6 rounded-2xl shadow hover:scale-105 transition-all">📖 Harfler & Harekeler</button>
-            <button onclick="modDegistir('tren')" id="btn-mod-tren" class="mod-btn bg-gray-200 text-gray-700 font-bold py-3 px-6 rounded-2xl shadow hover:scale-105 transition-all">🚂 Tren Oyunu (Birleşme)</button>
-            <!-- index.html içindeki ilgili bölüm --><a href="elif-ba/birlesim.html" class="nav-button">Elif Ba: Harf Birleştirme Oyunu</a>
-        </div>
-    </header>
+    <div>
+        <h1 class="text-3xl font-black text-blue-600 drop-shadow-sm">Elif Ba 🚀</h1>
+    </div>
+    <div class="flex flex-wrap gap-2 justify-center items-center">
+        <button onclick="modDegistir('ogrenme')" id="btn-mod-ogrenme" class="mod-btn bg-indigo-500 text-white font-bold py-3 px-6 rounded-2xl shadow hover:scale-105 transition-all">
+            📖 Harfler & Harekeler
+        </button>
+        
+        <a href="oyunlar.html" id="btn-oyun-odasi" class="bg-emerald-500 text-white font-bold py-3 px-6 rounded-2xl shadow hover:scale-105 transition-all inline-block text-center no-underline">
+            🎮 Oyun Odası
+        </a>
+    </div>
+</header>
 
     <!-- ÖĞRENME MODU ALANI (Harfler ve Harekeler) -->
     <div id="alan-ogrenme" class="w-full max-w-5xl flex flex-col items-center">
