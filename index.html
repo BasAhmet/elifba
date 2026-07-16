@@ -3,44 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Oyunlu Elif Ba Öğreniyorum</title>
+    <title>Elif Ba Öğreniyorum</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap');
         body { font-family: 'Nunito', sans-serif; }
-        
+        .shake-animation { animation: shake 0.3s ease-in-out; }
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
             25% { transform: translateX(-5px); }
             75% { transform: translateX(5px); }
         }
-        .shake-animation { animation: shake 0.3s ease-in-out; }
-        
-        /* Trenin kalkış animasyonu */
-        @keyframes driveAway {
-            0% { transform: translateX(0); opacity: 1; }
-            100% { transform: translateX(-100vw); opacity: 0; }
-        }
-        .drive-away { animation: driveAway 1.5s ease-in forwards; }
     </style>
 </head>
 <body class="bg-blue-50 min-h-screen p-6 flex flex-col items-center">
 
     <!-- Ana Menü / Navigasyon -->
     <header class="w-full max-w-5xl bg-white p-4 rounded-3xl shadow-sm border border-blue-100 mb-6 flex flex-col md:flex-row items-center justify-between gap-4">
-    <div>
-        <h1 class="text-3xl font-black text-blue-600 drop-shadow-sm">Elif Ba 🚀</h1>
-    </div>
-    <div class="flex flex-wrap gap-2 justify-center items-center">
-        <button onclick="modDegistir('ogrenme')" id="btn-mod-ogrenme" class="mod-btn bg-indigo-500 text-white font-bold py-3 px-6 rounded-2xl shadow hover:scale-105 transition-all">
-            📖 Harfler & Harekeler
-        </button>
-        
-        <a href="oyunlar.html" id="btn-oyun-odasi" class="bg-emerald-500 text-white font-bold py-3 px-6 rounded-2xl shadow hover:scale-105 transition-all inline-block text-center no-underline">
-            🎮 Oyun Odası
-        </a>
-    </div>
-</header>
+        <div>
+            <h1 class="text-3xl font-black text-blue-600 drop-shadow-sm">Elif Ba 🚀</h1>
+        </div>
+        <div class="flex flex-wrap gap-2 justify-center items-center">
+            <span class="bg-indigo-500 text-white font-bold py-3 px-6 rounded-2xl shadow">📖 Harfler & Harekeler</span>
+            <a href="oyunlar.html" class="bg-emerald-500 text-white font-bold py-3 px-6 rounded-2xl shadow hover:scale-105 transition-all text-center">🎮 Oyun Odası</a>
+        </div>
+    </header>
 
     <!-- ÖĞRENME MODU ALANI (Harfler ve Harekeler) -->
     <div id="alan-ogrenme" class="w-full max-w-5xl flex flex-col items-center">
@@ -59,49 +46,6 @@
         
         <div id="harfler-grid" class="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-6 gap-4 w-full flex-row-reverse" dir="rtl">
             <!-- JS ile doldurulacak -->
-        </div>
-    </div>
-
-    <!-- TREN OYUNU ALANI (Başlangıçta Gizli) -->
-    <div id="alan-tren" class="hidden w-full max-w-4xl flex flex-col items-center">
-        <div class="bg-white p-8 rounded-3xl shadow-lg border border-indigo-100 w-full text-center">
-            <h2 class="text-3xl font-black text-indigo-600 mb-2">Harfleri Vagonlara Diz!</h2>
-            <p class="text-xl text-gray-600 font-bold mb-8">Bu harfin formlarını sırasıyla <b>Başta</b>, <b>Ortada</b> ve <b>Sonda</b> olacak şekilde vagonlara tıkla.</p>
-            
-            <div id="hedef-harf-gosterimi" class="text-6xl font-bold text-gray-800 mb-8 bg-blue-50 py-4 px-8 rounded-full inline-block border-2 border-blue-200">
-                <!-- Soru buraya gelecek -->
-            </div>
-
-            <!-- Tren Görseli Alanı (Sağdan Sola) -->
-            <div id="tren-kapsayici" class="flex flex-row-reverse justify-center items-center gap-2 mb-12" dir="rtl">
-                <!-- Lokomotif -->
-                <div class="text-7xl drop-shadow-md">🚂</div>
-                
-                <!-- Vagonlar (Bağlantı Çizgileriyle Birlikte) -->
-                <div class="flex flex-col items-center">
-                    <span class="text-sm font-bold text-gray-400 mb-1">Başta</span>
-                    <div id="vagon-basta" class="w-24 h-24 bg-indigo-50 border-4 border-dashed border-indigo-300 rounded-xl flex items-center justify-center text-5xl font-bold text-indigo-700 shadow-inner"></div>
-                </div>
-                <div class="h-4 w-6 bg-gray-400 mt-5"></div> <!-- Bağlantı -->
-                
-                <div class="flex flex-col items-center">
-                    <span class="text-sm font-bold text-gray-400 mb-1">Ortada</span>
-                    <div id="vagon-ortada" class="w-24 h-24 bg-indigo-50 border-4 border-dashed border-indigo-300 rounded-xl flex items-center justify-center text-5xl font-bold text-indigo-700 shadow-inner"></div>
-                </div>
-                <div class="h-4 w-6 bg-gray-400 mt-5"></div> <!-- Bağlantı -->
-                
-                <div class="flex flex-col items-center">
-                    <span class="text-sm font-bold text-gray-400 mb-1">Sonda</span>
-                    <div id="vagon-sonda" class="w-24 h-24 bg-indigo-50 border-4 border-dashed border-indigo-300 rounded-xl flex items-center justify-center text-5xl font-bold text-indigo-700 shadow-inner"></div>
-                </div>
-            </div>
-
-            <!-- Seçenekler (Karışık Formlar) -->
-            <div id="tren-secenekler" class="flex justify-center gap-6" dir="rtl">
-                <!-- Butonlar JS ile basılacak -->
-            </div>
-            
-            <div id="tren-mesaj" class="mt-8 text-2xl font-black h-8"></div>
         </div>
     </div>
 
@@ -145,138 +89,6 @@
             if (aktifSes) { aktifSes.pause(); aktifSes.currentTime = 0; }
             aktifSes = new Audio(`sesler/${dosyaAdi}.mp3`);
             aktifSes.play().catch(e => console.warn("Ses çalınamadı", e));
-        }
-
-        // --- 3. MOD DEĞİŞTİRİCİ (Sekmeler Arası Geçiş) ---
-        function modDegistir(mod) {
-            document.querySelectorAll('.mod-btn').forEach(btn => {
-                btn.classList.replace('bg-indigo-500', 'bg-gray-200');
-                btn.classList.replace('text-white', 'text-gray-700');
-            });
-            const aktifBtn = document.getElementById(`btn-mod-${mod}`);
-            aktifBtn.classList.replace('bg-gray-200', 'bg-indigo-500');
-            aktifBtn.classList.replace('text-gray-700', 'text-white');
-
-            if(mod === 'ogrenme') {
-                document.getElementById('alan-ogrenme').classList.remove('hidden');
-                document.getElementById('alan-tren').classList.add('hidden');
-            } else {
-                document.getElementById('alan-ogrenme').classList.add('hidden');
-                document.getElementById('alan-tren').classList.remove('hidden');
-                document.getElementById('alan-tren').classList.add('flex');
-                trenOyununuBaslat();
-            }
-        }
-
-        // --- 4. TREN OYUNU MANTIĞI ---
-        let trenSoruHarfi = null;
-        let vagonSirasi = ['basta', 'ortada', 'sonda'];
-        let mevcutVagonIndex = 0; // Hangi vagonu dolduruyoruz (0: başta, 1: ortada, 2: sonda)
-
-        function trenOyununuBaslat() {
-            document.getElementById('tren-kapsayici').classList.remove('drive-away');
-            mevcutVagonIndex = 0;
-            
-            // Rastgele Harf Seç
-            const rastgeleIndex = Math.floor(Math.random() * elifBa.length);
-            trenSoruHarfi = elifBa[rastgeleIndex];
-            
-            // Soru alanını güncelle
-            document.getElementById('hedef-harf-gosterimi').innerText = `${trenSoruHarfi.arapca} - ${trenSoruHarfi.yalin}`;
-            document.getElementById('tren-mesaj').innerText = "";
-            document.getElementById('tren-mesaj').className = "mt-8 text-2xl font-black h-8 text-gray-500";
-            
-            // Vagonları Temizle
-            ['basta', 'ortada', 'sonda'].forEach(vagon => {
-                const el = document.getElementById(`vagon-${vagon}`);
-                el.innerText = "";
-                el.classList.replace('border-solid', 'border-dashed');
-                el.classList.remove('bg-green-100', 'border-green-400', 'text-green-700');
-                el.classList.add('bg-indigo-50', 'border-indigo-300', 'text-indigo-700');
-            });
-
-            // Seçenekleri Karıştır ve Ekrana Bas
-            let secenekler = [
-                { form: 'basta', gorsel: trenSoruHarfi.basta },
-                { form: 'ortada', gorsel: trenSoruHarfi.ortada },
-                { form: 'sonda', gorsel: trenSoruHarfi.sonda }
-            ];
-            secenekler.sort(() => Math.random() - 0.5); // Karıştırma
-
-            const seceneklerAlan = document.getElementById('tren-secenekler');
-            seceneklerAlan.innerHTML = '';
-            
-            secenekler.forEach(secenek => {
-                const btn = document.createElement('button');
-                btn.className = "bg-white border-2 border-indigo-200 text-5xl font-bold p-6 rounded-2xl shadow hover:bg-indigo-50 hover:scale-110 transition-all text-indigo-700";
-                btn.innerText = secenek.gorsel;
-                
-                btn.onclick = () => vagonDoldur(btn, secenek);
-                seceneklerAlan.appendChild(btn);
-            });
-            
-            sesCal(trenSoruHarfi.dosya); // Soru harfini seslendir
-        }
-
-        function vagonDoldur(butonElementi, secenekData) {
-            // Oyun bittiyse tıklamaları engelle
-            if(mevcutVagonIndex >= 3) return;
-
-            const beklenenForm = vagonSirasi[mevcutVagonIndex];
-            
-            // Doğru formu mu seçti? (Not: Bazı harflerin ortada ve sonda hali aynı olduğu için görsel eşitliğini de kontrol ediyoruz)
-            if (secenekData.form === beklenenForm || secenekData.gorsel === trenSoruHarfi[beklenenForm]) {
-                // Doğru vagon eşleşmesi
-                const vagonEl = document.getElementById(`vagon-${beklenenForm}`);
-                vagonEl.innerText = secenekData.gorsel;
-                vagonEl.classList.replace('border-dashed', 'border-solid');
-                
-                // Seçilen butonu gizle
-                butonElementi.style.visibility = 'hidden';
-                
-                mevcutVagonIndex++;
-                sesCal('pop_sesi'); // Varsa kısa bir 'tık' sesi çaldırılabilir (şimdilik harfi çalıyor)
-                
-                // Tren doldu mu?
-                if(mevcutVagonIndex === 3) {
-                    treniUgurla();
-                }
-            } else {
-                // Yanlış vagon eşleşmesi
-                const trenKapsayici = document.getElementById('tren-kapsayici');
-                trenKapsayici.classList.add('shake-animation');
-                document.getElementById('tren-mesaj').innerText = "❌ Hayır, bu form sıradaki vagona ait değil!";
-                document.getElementById('tren-mesaj').classList.replace('text-gray-500', 'text-red-500');
-                
-                setTimeout(() => {
-                    trenKapsayici.classList.remove('shake-animation');
-                    document.getElementById('tren-mesaj').innerText = "";
-                }, 1000);
-            }
-        }
-
-        function treniUgurla() {
-            document.getElementById('tren-mesaj').innerText = "🎉 Harika! Harfi başarıyla birleştirdin.";
-            document.getElementById('tren-mesaj').classList.replace('text-red-500', 'text-green-500');
-            
-            // Tüm vagonları yeşil yap
-            ['basta', 'ortada', 'sonda'].forEach(vagon => {
-                const el = document.getElementById(`vagon-${vagon}`);
-                el.classList.remove('bg-indigo-50', 'border-indigo-300', 'text-indigo-700');
-                el.classList.add('bg-green-100', 'border-green-400', 'text-green-700');
-            });
-            
-            sesCal(trenSoruHarfi.dosya); // Tebrik için harfin sesini çal
-            
-            // Treni yola çıkar
-            setTimeout(() => {
-                document.getElementById('tren-kapsayici').classList.add('drive-away');
-                
-                // 1.5 saniye sonra yeni soru getir
-                setTimeout(() => {
-                    trenOyununuBaslat();
-                }, 1500);
-            }, 1000);
         }
 
         // --- 5. ÖNCEKİ MODÜLLER İÇİN KODLAR (Harekeler ve Harf Bulma Oyunu) ---
