@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elif Ba - Oyun Odası</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            text-align: center;
+            padding: 40px 20px 20px 20px;
+        }
+        .back-btn {
+            text-decoration: none;
+            color: #3498db;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        .title {
+            color: #2c3e50;
+            font-size: 2.5rem;
+            margin: 10px 0;
+        }
+        .subtitle {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+        }
+        .games-container {
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+            padding: 40px 20px;
+            flex-wrap: wrap;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .game-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px 20px;
+            text-align: center;
+            width: 260px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            text-decoration: none;
+            color: #2c3e50;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        .game-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.1);
+            border-color: #3498db;
+        }
+        .game-icon {
+            font-size: 5rem;
+            margin-bottom: 15px;
+        }
+        .game-title {
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .game-desc {
+            font-size: 0.95rem;
+            color: #7f8c8d;
+            line-height: 1.4;
+        }
+        .coming-soon {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        .coming-soon:hover {
+            transform: none;
+            border-color: transparent;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <a href="index.html" class="back-btn">← Ana Sayfaya Dön</a>
+        <h1 class="title">🎮 Oyun Odası</h1>
+        <p class="subtitle">Öğrendiklerini pekiştirmek için bir oyun seç ve başla!</p>
+    </div>
+
+    <div class="games-container">
+        
+        <a href="elif-ba/birlesim.html" class="game-card">
+            <div class="game-icon">🧩</div>
+            <div class="game-title">Şekil Avcısı</div>
+            <div class="game-desc">Harflerin kelime başında, ortasında ve sonunda nasıl kılık değiştirdiğini bul.</div>
+        </a>
+
+        <a href="#" class="game-card">
+            <div class="game-icon">🚂</div>
+            <div class="game-title">Tren Oyunu</div>
+            <div class="game-desc">Harfleri vagonlara doğru sırayla yerleştirerek katarı tamamla.</div>
+        </a>
+
+        <div class="game-card coming-soon">
+            <div class="game-icon">🎯</div>
+            <div class="game-title">Hareke Avcısı</div>
+            <div class="game-desc">Üstün, esre ve ötre kurallarını yakala. (Çok Yakında...)</div>
+        </div>
+
+    </div>
+
+</body>
+</html>
